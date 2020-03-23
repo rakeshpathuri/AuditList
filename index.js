@@ -8,9 +8,9 @@ const { map, filter ,concatMap} = require('rxjs/operators');
 const folder_list = ['./sold/','./purchase/']; 
 const distinct_list = new Map();
 var proerty_map = new Map()
-.set('Amazing_ALPINE RX REPORT',['NDC','Quantity','no-dash','Alphine_RX'])
-.set('Amazing_Kinray_OTC Report',['Universal NDC','Qty','no-dash','Kinray_OTC'])
-.set('Amazing_Kinray_RX Report',['Universal NDC','Qty','no-dash','Kinray_RX']);
+.set('Amazing_ALPINE RX REPORT',['NDC','Quantity','no-dash','Alphine_RX',8])
+.set('Amazing_Kinray_OTC Report',['Universal NDC','Qty','no-dash','Kinray_OTC',8])
+.set('Amazing_Kinray_RX Report',['Universal NDC','Qty','no-dash','Kinray_RX',4]);
 let folder_count = 0;
 const file_names = [];
 const added_prop_list =[];
@@ -24,7 +24,7 @@ var walkSync = function(dir) {
 function readFile(filename ){
    return new Promise(function(resolve, reject) {
       var wb = xlsxFile.readFile(filename); 
-      var ws = wb.Sheets[wb.SheetNames[0]];
+      var ws = wb.Sheets[wb.SheetNames[0]];      
       resolve(ws);
    });   
 }
@@ -35,8 +35,7 @@ async function convertoJson(filename){
        return [...data];
  }
 
- function refineData(data) {
-   
+ function refineData(data) {   
     if(folder_count === 0){ 
     data.map((r,index) => {
       delete r.DATEF;
@@ -52,8 +51,7 @@ async function convertoJson(filename){
          r[prop_name[3]] = 0;
          if(index == 0){
          added_prop_list.push([prop_name[3]]);
-         }
-         
+         }         
       }     
       if(!distinct_list.has(r.NDC)){
           r.AllDISP = r.QUANT
@@ -72,7 +70,7 @@ async function convertoJson(filename){
   } else {
    const prop_name = file_names[folder_count].split('.').slice(0, -1).join('.');           
    let properties = proerty_map.get(prop_name);                         
-   data.map(r => { 
+   data.slice(properties[4]).map(r => { 
           r[properties[0]] = ndcConvert.converttoformat(r[properties[0]]);              
           if(distinct_list.has(r[properties[0]])) {   
             let subRecord = distinct_list.get(r[properties[0]]);                                             
