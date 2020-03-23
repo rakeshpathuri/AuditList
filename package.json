@@ -1,0 +1,19 @@
+{
+  "name": "exel-reader",
+  "version": "1.0.0",
+  "description": "need to read mutile excel sheets and compare thm and return results",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "excel"
+  ],
+  "author": "Rakehs Pathuri",
+  "license": "ISC",
+  "dependencies": {
+    "read-excel-file": "^4.0.6",
+    "rxjs": "^6.5.4",
+    "xlsx": "^0.15.6"
+  }
+}
