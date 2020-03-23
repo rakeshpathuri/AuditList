@@ -8,12 +8,14 @@ const { map, filter ,concatMap} = require('rxjs/operators');
 const folder_list = ['./sold/','./purchase/']; 
 const distinct_list = new Map();
 var proerty_map = new Map()
-.set('Amazing_ALPINE RX REPORT',['NDC','Quantity','no-dash','Alphine_RX',8])
+.set('Amazing_ALPINE RX REPORT',['NDC','Quantity','no-dash','Alphine_RX',4])
 .set('Amazing_Kinray_OTC Report',['Universal NDC','Qty','no-dash','Kinray_OTC',8])
-.set('Amazing_Kinray_RX Report',['Universal NDC','Qty','no-dash','Kinray_RX',4]);
+.set('Amazing_Kinray_RX Report',['Universal NDC','Qty','no-dash','Kinray_RX',8]);
 let folder_count = 0;
 const file_names = [];
 const added_prop_list =[];
+
+
 
 var walkSync = function(dir) {    
     files = fs.readdirSync(dir);
@@ -24,18 +26,30 @@ var walkSync = function(dir) {
 function readFile(filename ){
    return new Promise(function(resolve, reject) {
       var wb = xlsxFile.readFile(filename); 
-      var ws = wb.Sheets[wb.SheetNames[0]];      
+      var ws = wb.Sheets[wb.SheetNames[0]];     
+      // delete_row(ws, 9) ;
+     
+      if(folder_count >0){    
+         const prop_name = proerty_map.get(file_names[folder_count].split('.').slice(0, -1).join('.'));
+        wb.SheetNames.push("Test Sheet");      
+        const at = xlsxFile.utils.sheet_to_json(ws, {header:1});        
+        const w = xlsxFile.utils.aoa_to_sheet(at.splice(prop_name[4]));  
+        wb.Sheets["Test Sheet"] = w; 
+        var s = wb.Sheets[wb.SheetNames[1]];     
+        resolve(s);          
+      }     
       resolve(ws);
    });   
 }
 
 async function convertoJson(filename){
        let a = await(readFile(filename));
-       var data = xlsxFile.utils.sheet_to_json(a);            
+       var data = xlsxFile.utils.sheet_to_json(a);
        return [...data];
  }
 
  function refineData(data) {   
+   
     if(folder_count === 0){ 
     data.map((r,index) => {
       delete r.DATEF;
@@ -69,8 +83,8 @@ async function convertoJson(filename){
    
   } else {
    const prop_name = file_names[folder_count].split('.').slice(0, -1).join('.');           
-   let properties = proerty_map.get(prop_name);                         
-   data.slice(properties[4]).map(r => { 
+   let properties = proerty_map.get(prop_name);         
+   data.map(r => { 
           r[properties[0]] = ndcConvert.converttoformat(r[properties[0]]);              
           if(distinct_list.has(r[properties[0]])) {   
             let subRecord = distinct_list.get(r[properties[0]]);                                             
