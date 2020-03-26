@@ -10,7 +10,8 @@ const distinct_list = new Map();
 var proerty_map = new Map()
 .set('Amazing_ALPINE RX REPORT',['NDC','Quantity','no-dash','Alphine_RX',4])
 .set('Amazing_Kinray_OTC Report',['Universal NDC','Qty','no-dash','Kinray_OTC',8])
-.set('Amazing_Kinray_RX Report',['Universal NDC','Qty','no-dash','Kinray_RX',8]);
+.set('Amazing_Kinray_RX Report',['Universal NDC','Qty','no-dash','Kinray_RX',8])
+.set('SARATOGA RX LLC',['NDC','Quantity Shipped','dash','SARATOGA_RX',0]);
 let folder_count = 0;
 const file_names = [];
 const added_prop_list =[];
@@ -25,12 +26,13 @@ var walkSync = function(dir) {
 
 function readFile(filename ){
    return new Promise(function(resolve, reject) {
+      const prop_name = proerty_map.get(file_names[folder_count].split('.').slice(0, -1).join('.'));
       var wb = xlsxFile.readFile(filename); 
       var ws = wb.Sheets[wb.SheetNames[0]];     
       // delete_row(ws, 9) ;
      
-      if(folder_count >0){    
-         const prop_name = proerty_map.get(file_names[folder_count].split('.').slice(0, -1).join('.'));
+      if(folder_count >0 && prop_name[4] != 0){    
+        
         wb.SheetNames.push("Test Sheet");      
         const at = xlsxFile.utils.sheet_to_json(ws, {header:1});        
         const w = xlsxFile.utils.aoa_to_sheet(at.splice(prop_name[4]));  
@@ -44,7 +46,7 @@ function readFile(filename ){
 
 async function convertoJson(filename){
        let a = await(readFile(filename));
-       var data = xlsxFile.utils.sheet_to_json(a);
+       var data = xlsxFile.utils.sheet_to_json(a);     
        return [...data];
  }
 
@@ -81,16 +83,20 @@ async function convertoJson(filename){
       v.AllDISP = (v.AllDISP/v.PACKAGESIZE);
     });
    
-  } else {
+  } else {   
+   
    const prop_name = file_names[folder_count].split('.').slice(0, -1).join('.');           
    let properties = proerty_map.get(prop_name);         
    data.map(r => { 
-          r[properties[0]] = ndcConvert.converttoformat(r[properties[0]]);              
+      if(properties[2] == 'no-dash'){
+         r[properties[0]] = ndcConvert.converttoformat(r[properties[0]]);  
+      }                     
           if(distinct_list.has(r[properties[0]])) {   
             let subRecord = distinct_list.get(r[properties[0]]);                                             
             subRecord[properties[3]] = r[properties[1]] ;                        
           }
-      }); 
+      });     
+      
   }
   folder_count++;  
  }
