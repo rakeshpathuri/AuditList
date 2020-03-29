@@ -16,8 +16,6 @@ let folder_count = 0;
 const file_names = [];
 const added_prop_list =[];
 
-
-
 var walkSync = function(dir) {    
     files = fs.readdirSync(dir);
     files = [...files].map(e=> {file_names.push(e); return dir.concat(e);});  
@@ -29,10 +27,8 @@ function readFile(filename ){
       const prop_name = proerty_map.get(file_names[folder_count].split('.').slice(0, -1).join('.'));
       var wb = xlsxFile.readFile(filename); 
       var ws = wb.Sheets[wb.SheetNames[0]];     
-      // delete_row(ws, 9) ;
      
-      if(folder_count >0 && prop_name[4] != 0){    
-        
+      if(folder_count >0 && prop_name[4] != 0){           
         wb.SheetNames.push("Test Sheet");      
         const at = xlsxFile.utils.sheet_to_json(ws, {header:1});        
         const w = xlsxFile.utils.aoa_to_sheet(at.splice(prop_name[4]));  
@@ -83,8 +79,7 @@ async function convertoJson(filename){
       v.AllDISP = (v.AllDISP/v.PACKAGESIZE);
     });
    
-  } else {   
-   
+  } else {      
    const prop_name = file_names[folder_count].split('.').slice(0, -1).join('.');           
    let properties = proerty_map.get(prop_name);         
    data.map(r => { 
@@ -95,8 +90,7 @@ async function convertoJson(filename){
             let subRecord = distinct_list.get(r[properties[0]]);                                             
             subRecord[properties[3]] = r[properties[1]] ;                        
           }
-      });     
-      
+      });       
   }
   folder_count++;  
  }
@@ -116,8 +110,9 @@ async function convertoJson(filename){
     v.distace = (parseFloat(v.totalpurchased) - parseFloat(v.AllDISP));
     });
     
+    var sort_list = [...distinct_list.values()].sort(vsort);
    const newWb = xlsxFile.utils.book_new();          
-   const  newWs = xlsxFile.utils.json_to_sheet([...distinct_list.values()]);
+   const  newWs = xlsxFile.utils.json_to_sheet(sort_list);
    const wscols = [
      {wch:18},
      {wch:27},
@@ -128,6 +123,19 @@ async function convertoJson(filename){
    newWs['!cols'] = wscols;
    xlsxFile.utils.book_append_sheet(newWb,newWs,"New Data");         
    xlsxFile.writeFile(newWb,"Finla_result.xlsx");
+ }
+
+
+ function vsort(a,b){
+   let comparison = 0;
+   const bandA = a.distace;
+   const bandB = b.distace;
+   if (bandA > bandB) {
+     comparison = 1;
+   } else if (bandA < bandB) {
+     comparison = -1;
+   }
+   return comparison;
  }
 
  from(folder_list).pipe(concatMap(e=> walkSync(e))).pipe(concatMap(e=> convertoJson(e))).pipe(map(e=> refineData(e))).subscribe(r=>generateXl());
