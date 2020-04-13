@@ -1,0 +1,446 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20200411.221914.22196.0.001.json",
+    "dumpEventTime": "2020-04-11T22:19:14Z",
+    "dumpEventTimeStamp": "1586657954807",
+    "processId": 22196,
+    "cwd": "C:\\Users\\rakes\\Desktop\\Proc\\AuditList",
+    "commandLine": [
+      "node",
+      "index.js"
+    ],
+    "nodejsVersion": "v12.16.1",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.16.1",
+      "v8": "7.8.279.23-node.31",
+      "uv": "1.34.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.40.0",
+      "napi": "5",
+      "llhttp": "2.0.4",
+      "http_parser": "2.9.3",
+      "openssl": "1.1.1d",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019c",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "lts": "Erbium",
+      "headersUrl": "https://nodejs.org/download/release/v12.16.1/node-v12.16.1-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.16.1/node-v12.16.1.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.16.1/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.18362",
+    "osVersion": "Windows 10 Home",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz",
+        "speed": 2712,
+        "user": 44733984,
+        "nice": 0,
+        "sys": 34961875,
+        "idle": 359134703,
+        "irq": 10398375
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz",
+        "speed": 2712,
+        "user": 34955921,
+        "nice": 0,
+        "sys": 15107468,
+        "idle": 388766937,
+        "irq": 239000
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz",
+        "speed": 2712,
+        "user": 46151843,
+        "nice": 0,
+        "sys": 22593265,
+        "idle": 370085187,
+        "irq": 268406
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz",
+        "speed": 2712,
+        "user": 41049890,
+        "nice": 0,
+        "sys": 16445484,
+        "idle": 381334937,
+        "irq": 211156
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "Wi-Fi",
+        "internal": false,
+        "mac": "ac:ed:5c:f6:42:3f",
+        "address": "fe80::3507:8c12:a958:71c7",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 14
+      },
+      {
+        "name": "Wi-Fi",
+        "internal": false,
+        "mac": "ac:ed:5c:f6:42:3f",
+        "address": "172.20.20.20",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      }
+    ],
+    "host": "DESKTOP-749TD19"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x00007ff7590519f9",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+10873"
+    },
+    {
+      "pc": "0x00007ff759055e1c",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+28316"
+    },
+    {
+      "pc": "0x00007ff759054dd8",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+24152"
+    },
+    {
+      "pc": "0x00007ff7591534cb",
+      "symbol": "v8::base::CPU::has_sse+38363"
+    },
+    {
+      "pc": "0x00007ff759969f4e",
+      "symbol": "v8::Isolate::ReportExternalAllocationLimitReached+94"
+    },
+    {
+      "pc": "0x00007ff759952021",
+      "symbol": "v8::SharedArrayBuffer::Externalize+833"
+    },
+    {
+      "pc": "0x00007ff75981e57c",
+      "symbol": "v8::internal::Heap::EphemeronKeyWriteBarrierFromCode+1436"
+    },
+    {
+      "pc": "0x00007ff7598297d0",
+      "symbol": "v8::internal::Heap::ProtectUnprotectedMemoryChunks+1312"
+    },
+    {
+      "pc": "0x00007ff7598262f4",
+      "symbol": "v8::internal::Heap::PageFlagsAreConsistent+3204"
+    },
+    {
+      "pc": "0x00007ff75981bb13",
+      "symbol": "v8::internal::Heap::CollectGarbage+1283"
+    },
+    {
+      "pc": "0x00007ff75981a184",
+      "symbol": "v8::internal::Heap::AddRetainedMap+2452"
+    },
+    {
+      "pc": "0x00007ff75983b36d",
+      "symbol": "v8::internal::Factory::NewFillerObject+61"
+    },
+    {
+      "pc": "0x00007ff7595a0c51",
+      "symbol": "v8::internal::interpreter::JumpTableTargetOffsets::iterator::operator=+1665"
+    },
+    {
+      "pc": "0x00007ff759db4ddd",
+      "symbol": "v8::internal::SetupIsolateDelegate::SetupHeap+546637"
+    },
+    {
+      "pc": "0x0000032e3ef84663",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 2151043072,
+    "totalCommittedMemory": 2151043072,
+    "usedMemory": 2141738440,
+    "availableMemory": 53553024,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 262144,
+        "capacity": 32808,
+        "used": 32808,
+        "available": 0
+      },
+      "new_space": {
+        "memorySize": 2097152,
+        "committedMemory": 2097152,
+        "capacity": 1047456,
+        "used": 120392,
+        "available": 927064
+      },
+      "old_space": {
+        "memorySize": 1455308800,
+        "committedMemory": 1455308800,
+        "capacity": 1453446040,
+        "used": 1448639760,
+        "available": 4806280
+      },
+      "code_space": {
+        "memorySize": 430080,
+        "committedMemory": 430080,
+        "capacity": 332224,
+        "used": 332224,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 528384,
+        "committedMemory": 528384,
+        "capacity": 304880,
+        "used": 304880,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 692367360,
+        "committedMemory": 692367360,
+        "capacity": 692305592,
+        "used": 692305592,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 49152,
+        "committedMemory": 49152,
+        "capacity": 2784,
+        "used": 2784,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 1047456,
+        "used": 0,
+        "available": 1047456
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 297.125,
+    "kernelCpuSeconds": 2.515,
+    "cpuConsumptionPercent": 211.014,
+    "maxRss": 2339905536,
+    "pageFaults": {
+      "IORequired": 993557,
+      "IONotRequired": 0
+    },
+    "fsActivity": {
+      "reads": 212,
+      "writes": 1
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "=::": "::\\",
+    "=C:": "C:\\Users\\rakes\\Desktop\\Proc\\AuditList",
+    "=ExitCode": "00000001",
+    "add_path": "C:\\Users\\rakes\\Desktop\\Proc\\cmd",
+    "aliases": "C:\\Users\\rakes\\Desktop\\Proc\\cmd\\config\\user_aliases.cmd",
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "ANSICON": "158x1000 (158x39)",
+    "ANSICON_DEF": "7",
+    "APPDATA": "C:\\Users\\rakes\\AppData\\Roaming",
+    "architecture": "64",
+    "architecture_bits": "64",
+    "ccall": "call C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\bin\\cexec.cmd",
+    "cexec": "C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\bin\\cexec.cmd",
+    "ChocolateyInstall": "C:\\ProgramData\\chocolatey",
+    "ChocolateyLastPathUpdate": "132290547317824638",
+    "CMDER_ALIASES": "1",
+    "CMDER_CLINK": "1",
+    "CMDER_CONFIGURED": "1",
+    "CMDER_INIT_END": "17:52:44.39",
+    "CMDER_INIT_START": "17:52:40.62",
+    "CMDER_ROOT": "C:\\Users\\rakes\\Desktop\\Proc\\cmd",
+    "CMDER_SHELL": "cmd",
+    "CMDER_USER_FLAGS": " ",
+    "CommonProgramFiles": "C:\\Program Files\\Common Files",
+    "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+    "CommonProgramW6432": "C:\\Program Files\\Common Files",
+    "COMPUTERNAME": "DESKTOP-749TD19",
+    "ComSpec": "C:\\WINDOWS\\system32\\cmd.exe",
+    "ConEmuANSI": "ON",
+    "ConEmuAnsiLog": "",
+    "ConEmuArgs": "/REUSE ",
+    "ConEmuArgs2": "-cmdlist -new_console:c \"C:\\WINDOWS\\system32\\cmd.exe\" ",
+    "ConEmuBackHWND": "0x00E002F6",
+    "ConEmuBaseDir": "C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\conemu-maximus5\\ConEmu",
+    "ConEmuBaseDirShort": "C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\conemu-maximus5\\ConEmu",
+    "ConEmuBuild": "191012",
+    "ConEmuCfgDir": "C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\conemu-maximus5",
+    "ConEmuConfig": "",
+    "ConEmuDir": "C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\conemu-maximus5",
+    "ConEmuDrawHWND": "0x007207FC",
+    "ConEmuDrive": "C:",
+    "ConEmuHooks": "Enabled",
+    "ConEmuHWND": "0x008D07F0",
+    "ConEmuPalette": "Monokai",
+    "ConEmuPID": "13896",
+    "ConEmuServerPID": "3176",
+    "ConEmuTask": "{cmd::Cmder as Admin}",
+    "ConEmuWorkDir": "C:\\Users\\rakes",
+    "ConEmuWorkDrive": "C:",
+    "configsetroot": "C:\\WINDOWS\\ConfigSetRoot",
+    "DASHLANE_DLL_DIR": "C:\\Users\\rakes\\AppData\\Roaming\\Dashlane\\4.8.9.37516\\bin\\Firefox_Extension\\{442718d9-475e-452a-b3e1-fb1ee16b8e9f}\\components;C:\\Users\\rakes\\AppData\\Roaming\\Dashlane\\4.8.9.37516\\ucrt",
+    "debug_output": "0",
+    "depth": "1",
+    "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+    "fast_init": "0",
+    "feFlagName": " ",
+    "find_query": "C:\\\\Users\\\\rakes\\\\Desktop\\\\Proc\\\\cmd",
+    "found": "1",
+    "git_executable": "C:\\Program Files\\Git\\cmd\\git.exe",
+    "GIT_INSTALL_ROOT": "C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\git-for-windows",
+    "git_locale": "\"C:\\Program Files\\Git\\usr\\bin\\locale.exe\"",
+    "GIT_VERSION_USER": "2.26.0.windows.1",
+    "GIT_VERSION_VENDORED": "2.24.1.windows.2",
+    "HOME": "C:\\Users\\rakes",
+    "HOMEDRIVE": "C:",
+    "HOMEPATH": "\\Users\\rakes",
+    "IntelliJ IDEA": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2019.1.1\\bin;",
+    "JAVA_HOME": "C:\\Program Files\\Java\\jdk1.8.0_144",
+    "LANG": "en_US.UTF-8",
+    "lib_base": "call \"C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\lib\\lib_base.cmd\"",
+    "lib_console": "call \"C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\lib\\lib_console.cmd\"",
+    "lib_git": "call \"C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\lib\\lib_git.cmd\"",
+    "lib_path": "call \"C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\lib\\lib_path.cmd\"",
+    "lib_profile": "call \"C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\lib\\lib_profile.cmd\"",
+    "LOCALAPPDATA": "C:\\Users\\rakes\\AppData\\Local",
+    "LOGONSERVER": "\\\\DESKTOP-749TD19",
+    "M2_HOME": "C:\\ProgramData\\apache-maven-3.5.0",
+    "max_depth": "1",
+    "nix_tools": "1",
+    "NUMBER_OF_PROCESSORS": "4",
+    "OLD_PATH": "C:\\Users\\rakes\\Desktop\\Proc\\cmd\\bin;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\bin;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\conemu-maximus5\\ConEmu\\Scripts;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\conemu-maximus5;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\conemu-maximus5\\ConEmu;C:\\Python27\\;C:\\Python27\\Scripts;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files\\PostgreSQL\\9.6\\lib;C:\\Program Files\\PostgreSQL\\9.6\\bin;C:\\Program Files (x86)\\Bitvise SSH Client;C:\\ProgramData\\apache-maven-3.5.0\\bin;C:\\Program Files\\Java\\jdk1.8.0_144\\bin;C:\\PostgreSQL\\pg10\\bin;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files\\nodejs\\;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Git\\cmd;C:\\Users\\rakes\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Program Files\\Java\\jdk1.8.0_144;C:\\Program Files\\Microsoft VS Code\\bin;C:\\ProgramData\\apache-maven-3.5.0\\bin;%DASHLANE_DLL_DIR%;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2019.1.1\\bin;C:\\Users\\rakes\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\rakes\\AppData\\Roaming\\npm;C:\\Program Files\\JetBrains\\WebStorm 2019.3.4\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\rakes\\Desktop\\Proc\\cmd;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\git-for-windows\\cmd;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\git-for-windows\\mingw64\\bin;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\git-for-windows\\usr\\bin",
+    "OneDrive": "C:\\Users\\rakes\\OneDrive",
+    "OneDriveConsumer": "C:\\Users\\rakes\\OneDrive",
+    "OS": "Windows_NT",
+    "Path": "C:\\Users\\rakes\\Desktop\\Proc\\cmd\\bin;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\bin;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\conemu-maximus5\\ConEmu\\Scripts;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\conemu-maximus5;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\conemu-maximus5\\ConEmu;C:\\Python27\\;C:\\Python27\\Scripts;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files\\PostgreSQL\\9.6\\lib;C:\\Program Files\\PostgreSQL\\9.6\\bin;C:\\Program Files (x86)\\Bitvise SSH Client;C:\\ProgramData\\apache-maven-3.5.0\\bin;C:\\Program Files\\Java\\jdk1.8.0_144\\bin;C:\\PostgreSQL\\pg10\\bin;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files\\nodejs\\;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Git\\cmd;C:\\Users\\rakes\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Program Files\\Java\\jdk1.8.0_144;C:\\Program Files\\Microsoft VS Code\\bin;C:\\ProgramData\\apache-maven-3.5.0\\bin;%DASHLANE_DLL_DIR%;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2019.1.1\\bin;C:\\Users\\rakes\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\rakes\\AppData\\Roaming\\npm;C:\\Program Files\\JetBrains\\WebStorm 2019.3.4\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\rakes\\Desktop\\Proc\\cmd;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\git-for-windows\\cmd;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\git-for-windows\\mingw64\\bin;C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\git-for-windows\\usr\\bin",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC",
+    "path_position": "append",
+    "PLINK_PROTOCOL": "ssh",
+    "PROCESSOR_ARCHITECTURE": "AMD64",
+    "PROCESSOR_IDENTIFIER": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+    "PROCESSOR_LEVEL": "6",
+    "PROCESSOR_REVISION": "8e09",
+    "ProgramData": "C:\\ProgramData",
+    "ProgramFiles": "C:\\Program Files",
+    "ProgramFiles(x86)": "C:\\Program Files (x86)",
+    "ProgramW6432": "C:\\Program Files",
+    "PROMPT": "C\bL\bI\bN\bK\b \b$P$G",
+    "PSModulePath": "C:\\Program Files\\WindowsPowerShell\\Modules;C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\Modules",
+    "PUBLIC": "C:\\Users\\Public",
+    "SESSIONNAME": "Console",
+    "SVN_SSH": "C:\\\\Program Files\\\\Git\\\\bin\\\\ssh.exe",
+    "SystemDrive": "C:",
+    "SystemRoot": "C:\\WINDOWS",
+    "TEMP": "C:\\Users\\rakes\\AppData\\Local\\Temp",
+    "TERM": "cygwin",
+    "time_init": "0",
+    "TMP": "C:\\Users\\rakes\\AppData\\Local\\Temp",
+    "USERDOMAIN": "DESKTOP-749TD19",
+    "USERDOMAIN_ROAMINGPROFILE": "DESKTOP-749TD19",
+    "USERNAME": "rakes",
+    "USERPROFILE": "C:\\Users\\rakes",
+    "user_aliases": "C:\\Users\\rakes\\Desktop\\Proc\\cmd\\config\\user_aliases.cmd",
+    "USER_BUILD": "windows.1",
+    "USER_MAJOR": "2",
+    "USER_MINOR": "26",
+    "USER_PATCH": "0",
+    "VENDORED_BUILD": "windows.2",
+    "VENDORED_MAJOR": "2",
+    "VENDORED_MINOR": "24",
+    "VENDORED_PATCH": "1",
+    "verbose_output": "0",
+    "WebStorm": "C:\\Program Files\\JetBrains\\WebStorm 2019.3.4\\bin;",
+    "windir": "C:\\WINDOWS"
+  },
+  "sharedObjects": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+    "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+    "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+    "C:\\WINDOWS\\System32\\WS2_32.dll",
+    "C:\\WINDOWS\\System32\\RPCRT4.dll",
+    "C:\\WINDOWS\\System32\\PSAPI.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\dbghelp.dll",
+    "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+    "C:\\WINDOWS\\System32\\ucrtbase.dll",
+    "C:\\WINDOWS\\System32\\msvcrt.dll",
+    "C:\\WINDOWS\\System32\\sechost.dll",
+    "C:\\WINDOWS\\System32\\USER32.dll",
+    "C:\\WINDOWS\\System32\\win32u.dll",
+    "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\WINDOWS\\System32\\GDI32.dll",
+    "C:\\WINDOWS\\SYSTEM32\\USERENV.dll",
+    "C:\\WINDOWS\\System32\\gdi32full.dll",
+    "C:\\WINDOWS\\System32\\profapi.dll",
+    "C:\\WINDOWS\\System32\\msvcp_win.dll",
+    "C:\\WINDOWS\\System32\\CRYPT32.dll",
+    "C:\\WINDOWS\\System32\\MSASN1.dll",
+    "C:\\WINDOWS\\System32\\bcrypt.dll",
+    "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+    "C:\\WINDOWS\\SYSTEM32\\WINMMBASE.dll",
+    "C:\\WINDOWS\\System32\\cfgmgr32.dll",
+    "C:\\WINDOWS\\System32\\bcryptPrimitives.dll",
+    "C:\\WINDOWS\\System32\\IMM32.DLL",
+    "C:\\Users\\rakes\\Desktop\\Proc\\cmd\\vendor\\conemu-maximus5\\ConEmu\\ConEmuHk64.dll",
+    "C:\\WINDOWS\\System32\\powrprof.dll",
+    "C:\\WINDOWS\\System32\\UMPDC.dll",
+    "C:\\WINDOWS\\SYSTEM32\\CRYPTBASE.DLL",
+    "C:\\WINDOWS\\system32\\uxtheme.dll",
+    "C:\\WINDOWS\\System32\\combase.dll",
+    "C:\\WINDOWS\\system32\\mswsock.dll",
+    "C:\\WINDOWS\\System32\\kernel.appcore.dll",
+    "C:\\WINDOWS\\System32\\NSI.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc6.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\DNSAPI.dll",
+    "C:\\WINDOWS\\system32\\napinsp.dll",
+    "C:\\WINDOWS\\system32\\pnrpnsp.dll",
+    "C:\\WINDOWS\\System32\\winrnr.dll",
+    "C:\\WINDOWS\\system32\\NLAapi.dll",
+    "C:\\WINDOWS\\system32\\wshbth.dll"
+  ]
+}
