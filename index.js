@@ -1,5 +1,6 @@
 const xlsxFile = require('xlsx');
 const fs = require('fs');
+const Excel = require('exceljs');
 const ndcConvert = require('./Util/ndcConvert');
 
 const { of,from ,AsyncSubject  } = require('rxjs'); 
@@ -99,7 +100,11 @@ async function convertoJson(filename){
     });         
    
     distinct_list.forEach((v,k) =>{
+      if(v.PACKAGESIZE >0){
       v.AllDISP = (v.AllDISP/v.PACKAGESIZE);
+      } else{
+        v.AllDISP = 0;
+      }
     });
    
   } else {      
@@ -147,17 +152,47 @@ async function convertoJson(filename){
  
    for (let r of sort_list) {  
     for (let [k, v] of binData) {      
-       if(v.indexOf(r.BINNO) > 0){  
-         console.log();            
+       if(v.indexOf(r.BINNO) > 0){                
         let rr = binFilterData.get(k);
         rr.push(r); 
-             break;
+            
        }
     }
    }  
+   const workbook = new Excel.Workbook();
+   const worksheet = workbook.addWorksheet('ExampleSheet');
+   let a = sort_list[0];
+   a = Object.keys(a); 
+
+   a = a.map(r=>{  return {header:r,key:r};});   
+   worksheet.columns = a;
+   worksheet.addRows(sort_list.map(r=> Object.values(r)));
+   worksheet.getRow(1).eachCell((cell) => {
+    cell.font = { bold: true };
+    cell.font = {color: {argb: "004e47cc"}};
+    cell.tabColor = {argb:"C7C7C7"}
+  });
+
+  a.map((e,i)=>worksheet.getColumn(i+1).width =20);  
+  worksheet.autoFilter = 'A1:'+String.fromCharCode(65+a.length-1)+'1';
+  worksheet.views = [
+    { state: 'frozen',  ySplit: 1, activeCell: 'B2' },
+  ];
   
   
-   const newWb = xlsxFile.utils.book_new();          
+
+// save workbook to disk
+workbook
+  .xlsx
+  .writeFile('sample.xlsx')
+  .then(() => {
+    console.log("saved");
+  })
+  .catch((err) => {
+    console.log("err", err);
+  });
+  
+   /* const newWb = xlsxFile.utils.book_new();          
    const  newWs = xlsxFile.utils.json_to_sheet(sort_list);
    const wscols = [
     {wch:18},
@@ -167,13 +202,13 @@ async function convertoJson(filename){
     {wch:15}
  ];
   newWs['!cols'] = wscols;
-   xlsxFile.utils.book_append_sheet(newWb,newWs,"New Data");       
+   xlsxFile.utils.book_append_sheet(newWb,newWs,"ALLDISP-REPORT");       
    binFilterData.forEach((v,k)=>{     
     let  Ws = xlsxFile.utils.json_to_sheet(v);
     
     xlsxFile.utils.book_append_sheet(newWb,Ws,k); 
    });
-   xlsxFile.writeFile(newWb,"Finla_result.xlsx");
+   xlsxFile.writeFile(newWb,"Finla_result.xlsx"); */
  }
 
 
