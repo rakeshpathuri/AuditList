@@ -1,0 +1,16 @@
+
+  exports.proerty_map = new Map()
+  .set('ALPINE RX',['NDC','Quantity','no-dash','Alphine_RX',4])
+  .set('Kinray_OTC',['Universal NDC','Qty','no-dash','Kinray_OTC',8])
+  .set('Kinray_RX',['Universal NDC','Qty','no-dash','Kinray_RX',8])
+  .set('SARATOGA RX LLC',['NDC','Quantity Shipped','dash','SARATOGA_RX',0])
+  .set('ABC',['NDC','Shipped Qty','no-dash','ABC',1])
+  .set('BLUPAX',['NDC','QTY','dash','BLUPAX',3])
+  .set('COCHREN',['NDC','Qty','dash','COCHREN',12])
+  .set('EZIRX',['NDC','Qty','dash','EZIRX',0])
+  .set('MCK',['NDC/UPC','Ord Qty','no-dash','MCK',7])
+  .set('MKB',['NDC','Qty','dash','MKB',12])
+  .set('OAK',['NDC','Quantity','no-dash','OAK',2])
+  .set('REDMOND_ GREER',['Product Code','Quantity','REDMOND GREER','OAK',2])
+  .set('RIVERCITY',['FillNdcUpc','FillQuantity','no-dash','RIVERCITY',0])
+  .set('TOPRX',['NDC','QTY','no-dash','TOPRX',0]);

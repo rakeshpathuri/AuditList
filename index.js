@@ -2,27 +2,13 @@ const xlsxFile = require('xlsx');
 const fs = require('fs');
 const Excel = require('exceljs');
 const ndcConvert = require('./Util/ndcConvert');
-
-const { of,from ,AsyncSubject  } = require('rxjs'); 
-const { map, filter ,concatMap,last} = require('rxjs/operators');
+let proerty_map = require('./Util/RuleBook');
+const { from  } = require('rxjs'); 
+const { map, concatMap,last} = require('rxjs/operators');
 
 const folder_list = ['./sold/','./purchase/']; 
 const distinct_list = new Map();
-var proerty_map = new Map()
-.set('ALPINE RX',['NDC','Quantity','no-dash','Alphine_RX',4])
-.set('Kinray_OTC',['Universal NDC','Qty','no-dash','Kinray_OTC',8])
-.set('Kinray_RX',['Universal NDC','Qty','no-dash','Kinray_RX',8])
-.set('SARATOGA RX LLC',['NDC','Quantity Shipped','dash','SARATOGA_RX',0])
-.set('ABC',['NDC','Shipped Qty','no-dash','ABC',1])
-.set('BLUPAX',['NDC','QTY','dash','BLUPAX',3])
-.set('COCHREN',['NDC','Qty','dash','COCHREN',12])
-.set('EZIRX',['NDC','Qty','dash','EZIRX',0])
-.set('MCK',['NDC/UPC','Ord Qty','no-dash','MCK',7])
-.set('MKB',['NDC','Ord Qty','dash','MKB',12])
-.set('OAK',['NDC','Quantity','no-dash','OAK',2])
-.set('REDMOND_ GREER',['Product Code','Quantity','REDMOND GREER','OAK',2])
-.set('RIVERCITY',['Invoice Number','FillQuantity','no-dash','RIVERCITY',1])
-.set('TOPRX',['NDC','QTY','no-dash','TOPRX',0]);
+proerty_map =proerty_map.proerty_map;
 let folder_count = 0;
 const file_names = [];
 const added_prop_list =[];
@@ -108,6 +94,7 @@ async function convertoJson(filename){
     });
    
   } else {      
+    
    const prop_name = file_names[folder_count].split('.').slice(0, -1).join('.');           
    let properties = proerty_map.get(prop_name);        
    let testObject =new Map();
@@ -160,31 +147,46 @@ async function convertoJson(filename){
     }
    }  
    const workbook = new Excel.Workbook();
-   const worksheet = workbook.addWorksheet('ExampleSheet');
+   let worksheet = workbook.addWorksheet('AllDisp');
    let a = sort_list[0];
    a = Object.keys(a); 
 
-   a = a.map(r=>{  return {header:r,key:r};});   
-   worksheet.columns = a;
+ 
+   worksheet.columns = a.map(r=>{  return {header:r,key:r};});
    worksheet.addRows(sort_list.map(r=> Object.values(r)));
+
+   binFilterData.forEach((v,k)=>{       
+    let worksheet = workbook.addWorksheet(k);
+    worksheet.columns = a.map(r=>{  return {header:r,key:r};});
+    worksheet.addRows(v.map(r=> Object.values(r)));   
+    
    worksheet.getRow(1).eachCell((cell) => {
     cell.font = { bold: true };
     cell.font = {color: {argb: "004e47cc"}};
-    cell.tabColor = {argb:"C7C7C7"}
+    
   });
 
   a.map((e,i)=>worksheet.getColumn(i+1).width =20);  
   worksheet.autoFilter = 'A1:'+String.fromCharCode(65+a.length-1)+'1';
-  worksheet.views = [
-    { state: 'frozen',  ySplit: 1, activeCell: 'B2' },
-  ];
+  worksheet.views = [{ state: 'frozen',  ySplit: 1, activeCell: 'B2' },];
+   });
+
+   worksheet.getRow(1).eachCell((cell) => {
+    cell.font = { bold: true };
+    cell.font = {color: {argb: "004e47cc"}};
+    
+  });
+
+  a.map((e,i)=>worksheet.getColumn(i+1).width =20);  
+  worksheet.autoFilter = 'A1:'+String.fromCharCode(65+a.length-1)+'1';
+  worksheet.views = [{ state: 'frozen',  ySplit: 1, activeCell: 'B2' },];
   
-  
+const fileName = 'FinalResult_'+new Date().getTime();
 
 // save workbook to disk
 workbook
   .xlsx
-  .writeFile('sample.xlsx')
+  .writeFile(fileName+'.xlsx')
   .then(() => {
     console.log("saved");
   })
@@ -192,23 +194,6 @@ workbook
     console.log("err", err);
   });
   
-   /* const newWb = xlsxFile.utils.book_new();          
-   const  newWs = xlsxFile.utils.json_to_sheet(sort_list);
-   const wscols = [
-    {wch:18},
-    {wch:27},
-    {wch:17},
-    {wch:15},
-    {wch:15}
- ];
-  newWs['!cols'] = wscols;
-   xlsxFile.utils.book_append_sheet(newWb,newWs,"ALLDISP-REPORT");       
-   binFilterData.forEach((v,k)=>{     
-    let  Ws = xlsxFile.utils.json_to_sheet(v);
-    
-    xlsxFile.utils.book_append_sheet(newWb,Ws,k); 
-   });
-   xlsxFile.writeFile(newWb,"Finla_result.xlsx"); */
  }
 
 
