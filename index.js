@@ -1,14 +1,16 @@
 const xlsxFile = require('xlsx');
 const fs = require('fs');
 const Excel = require('exceljs');
-const ndcConvert = require('./Util/ndcConvert');
-let proerty_map = require('./Util/RuleBook');
 const { from  } = require('rxjs'); 
 const { map, concatMap,last} = require('rxjs/operators');
 
+const ndcConvert = require('./Util/ndcConvert');
+let proerty_map = require('./Util/RuleBook');
+
+
 const folder_list = ['./sold/','./purchase/']; 
 const distinct_list = new Map();
-proerty_map =proerty_map.proerty_map;
+proerty_map = proerty_map.proerty_map;
 let folder_count = 0;
 const file_names = [];
 const added_prop_list =[];
@@ -62,11 +64,26 @@ async function convertoJson(filename){
   return [...data]
 }
 
+function generateBinObj() {
+  const a={};
+  for (let [k, v] of binData) {  
+      a[k] = 0;
+  }  
+  return a;
+}
+
+function findBinOwner(binNumber){
+  for (let [k, v] of binData) {      
+    if(v.indexOf(binNumber) > -1){                
+        return k;            
+    }
+ }
+}
  function refineData(data) {   
    
     if(folder_count === 0){ 
-    data.map(r=> {return {NDC:r.NDC,DRGNAME:r.DRGNAME,DRUGSTRONG:r.DRUGSTRONG,PACKAGESIZE:r.PACKAGESIZE,QUANT:r.QUANT,BINNO:r.BINNO};}).map((r,index) => {
-          
+    data.map(r=> {return {NDC:r.NDC,DRGNAME:r.DRGNAME,DRUGSTRONG:r.DRUGSTRONG,PACKAGESIZE:r.PACKAGESIZE,QUANT:r.QUANT,BINNO:r.BINNO,};}).map((r,index) => {
+      
       for(let i= 1;i<file_names.length;i++){          
          const prop_name = proerty_map.get(file_names[i].split('.').slice(0, -1).join('.'));          
           r[prop_name[3]] = 0;
@@ -77,9 +94,21 @@ async function convertoJson(filename){
 
       if(!distinct_list.has(r.NDC)){
           r.AllDISP = r.QUANT
+          r.binList =generateBinObj();          
+          for (let [k, v] of binData) {      
+            if(v.indexOf(r.BINNO) > -1){                
+              r.binList[k]+= r.QUANT;        
+            }    
+          }    
           distinct_list.set(r.NDC,r)                
-      }else{              
+      }else{       
+             
          let c = distinct_list.get(r.NDC);
+         for (let [k, v] of binData) {      
+          if(v.indexOf(r.BINNO) > -1){                
+            c.binList[k]+= r.QUANT;        
+          }    
+        }    
          c.QUANT = c.QUANT+r.QUANT;
          c.AllDISP  = c.AllDISP+ r.QUANT;
       }     
@@ -92,6 +121,7 @@ async function convertoJson(filename){
         v.AllDISP = 0;
       }
     });
+    
    
   } else {      
     
@@ -121,8 +151,7 @@ async function convertoJson(filename){
   folder_count++;  
  }
 
- function generateXl(e){   
-    
+ function generateXl(e){       
    distinct_list.forEach((v,k) =>{         
       let totalpurchased = 0;
       added_prop_list.forEach(e=>{                     
@@ -137,27 +166,39 @@ async function convertoJson(filename){
     
    let sort_list = [...distinct_list.values()].sort(vsort); 
  
-   for (let r of sort_list) {  
-    for (let [k, v] of binData) {      
-       if(v.indexOf(r.BINNO) > 0){                
-        let rr = binFilterData.get(k);
-        rr.push(r); 
-            
-       }
+   for (let r of sort_list) {
+       
+    for (const k of Object.keys(r.binList)) {   
+         if(r.binList[k] >0 && k !=undefined){     
+          let rr = binFilterData.get(k);  
+          if(rr != undefined){
+           rr.push (r);
+         }
+         }                  
     }
-   }  
+   }   
+   
    const workbook = new Excel.Workbook();
    let worksheet = workbook.addWorksheet('AllDisp');
-   let a = sort_list[0];
-   a = Object.keys(a); 
-
- 
-   worksheet.columns = a.map(r=>{  return {header:r,key:r};});
-   worksheet.addRows(sort_list.map(r=> Object.values(r)));
-
-   binFilterData.forEach((v,k)=>{       
+  
+   a = Object.keys(sort_list[0]) ;
+   //.filter(e => e !== 'binList'); 
+   worksheet.columns =  a.map(r=>{ return {header:r,key:r};});
+  // const llist = JSON.parse(JSON.stringify(sort_list))
+   worksheet.addRows(sort_list.map(r=> {return Object.values(r)}));
+   // console.log();
+   binFilterData.forEach((v,k)=>{    
+    // console.log(v);    
     let worksheet = workbook.addWorksheet(k);
     worksheet.columns = a.map(r=>{  return {header:r,key:r};});
+    v.forEach(r=>{
+      //console.log(r);
+         r.QUANT = r.binList[k];
+         r.AllDISP =  r.QUANT/r.PACKAGESIZE;
+         r.distace =  (parseFloat(r.totalpurchased) - parseFloat(r.AllDISP));
+
+    });
+  
     worksheet.addRows(v.map(r=> Object.values(r)));   
     
    worksheet.getRow(1).eachCell((cell) => {
@@ -166,6 +207,8 @@ async function convertoJson(filename){
     
   });
 
+  
+  worksheet.getColumn(a.indexOf('binList')+1).hidden = true;
   a.map((e,i)=>worksheet.getColumn(i+1).width =20);  
   worksheet.autoFilter = 'A1:'+String.fromCharCode(65+a.length-1)+'1';
   worksheet.views = [{ state: 'frozen',  ySplit: 1, activeCell: 'B2' },];
@@ -177,6 +220,7 @@ async function convertoJson(filename){
     
   });
 
+  worksheet.getColumn(a.indexOf('binList')+1).hidden = true;
   a.map((e,i)=>worksheet.getColumn(i+1).width =20);  
   worksheet.autoFilter = 'A1:'+String.fromCharCode(65+a.length-1)+'1';
   worksheet.views = [{ state: 'frozen',  ySplit: 1, activeCell: 'B2' },];
