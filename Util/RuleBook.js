@@ -11,6 +11,6 @@
   .set('MCK',['NDC/UPC','Ord Qty','no-dash','MCK',7])
   .set('MKB',['NDC','Qty','dash','MKB',12])
   .set('OAK',['NDC','Quantity','no-dash','OAK',2])
-  .set('REDMOND_ GREER',['Product Code','Quantity','REDMOND GREER','OAK',2])
+  .set('REDMOND_ GREER',['Product Code','Quantity','REDMOND GREER','REDMOND_GREER',2])
   .set('RIVERCITY',['FillNdcUpc','FillQuantity','no-dash','RIVERCITY',0])
   .set('TOPRX',['NDC','QTY','no-dash','TOPRX',0]);

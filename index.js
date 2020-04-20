@@ -82,7 +82,14 @@ function findBinOwner(binNumber){
  function refineData(data) {   
    
     if(folder_count === 0){ 
-    data.map(r=> {return {NDC:r.NDC,DRGNAME:r.DRGNAME,DRUGSTRONG:r.DRUGSTRONG,PACKAGESIZE:r.PACKAGESIZE,QUANT:r.QUANT,BINNO:r.BINNO,};}).map((r,index) => {
+    data.map(r=> {
+        return {
+            NDC:r.NDC,
+            DRGNAME:r.DRGNAME,
+            DRUGSTRONG:r.DRUGSTRONG,
+            PACKAGESIZE:r.PACKAGESIZE,
+            QUANT:r.QUANT,
+            BINNO:r.BINNO};}).map((r,index) => {
       
       for(let i= 1;i<file_names.length;i++){          
          const prop_name = proerty_map.get(file_names[i].split('.').slice(0, -1).join('.'));          
