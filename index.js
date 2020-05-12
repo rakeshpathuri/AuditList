@@ -18,23 +18,33 @@ const binData = new Map();
 const binFilterData = new Map();
 
 const walkSync = function(dir) {    
-    files = fs.readdirSync(dir);
-    files = [...files].map(e=> {file_names.push(e); return dir.concat(e);});  
+    let files = fs.readdirSync(dir);
+    files = [...files].map(e=> { addToMap(e,dir); file_names.push(e); return dir.concat(e);});
     return from(files);   
  }
 
+ function addToMap(fileName,dir){
+  fileName = fileName.split('.').slice(0, -1).join('.');
+     const reg = /\d+/g;
+     const matches = fileName.match(reg);
+     if(matches !== null && matches.length >0 && dir  === './purchase/'){
+         let c = (fileName.slice(0, fileName.search(matches)));
+         const  tempstorage = JSON.parse(JSON.stringify(proerty_map.get(c)));
+         tempstorage[3] = fileName;
+         proerty_map.set(fileName,tempstorage);
+     }
+ }
  const binRead = function(dir) {    
-  files = fs.readdirSync(dir);
+  let files = fs.readdirSync(dir);
   files = [...files].map(e=> {return dir.concat(e);});  
   return from(files);   
 }
 
 function readFile(filename ){
    return new Promise(function(resolve, reject) {
-      const prop_name = proerty_map.get(file_names[folder_count].split('.').slice(0, -1).join('.'));
+      const prop_name = proerty_map.get(file_names[folder_count].split('.').slice(0, -1).join('.'));     
       let wb = xlsxFile.readFile(filename); 
-      let ws = wb.Sheets[wb.SheetNames[0]];     
-     
+      let ws = wb.Sheets[wb.SheetNames[0]];          
       if(folder_count >0 && prop_name[4] != 0){           
         wb.SheetNames.push("Test Sheet");      
         const at = xlsxFile.utils.sheet_to_json(ws, {header:1});        
@@ -72,15 +82,9 @@ function generateBinObj() {
   return a;
 }
 
-function findBinOwner(binNumber){
-  for (let [k, v] of binData) {      
-    if(v.indexOf(binNumber) > -1){                
-        return k;            
-    }
- }
-}
+
  function refineData(data) {   
-   
+
     if(folder_count === 0){ 
     data.map(r=> {
         return {
@@ -89,10 +93,10 @@ function findBinOwner(binNumber){
             DRUGSTRONG:r.DRUGSTRONG,
             PACKAGESIZE:r.PACKAGESIZE,
             QUANT:r.QUANT,
-            BINNO:r.BINNO};}).map((r,index) => {
-      
-      for(let i= 1;i<file_names.length;i++){          
-         const prop_name = proerty_map.get(file_names[i].split('.').slice(0, -1).join('.'));          
+            BINNO:r.BINNO};}).map((r,index) => {      
+      for(let i= 1;i<file_names.length;i++){    
+
+        const prop_name = proerty_map.get(file_names[i].split('.').slice(0, -1).join('.'));          
           r[prop_name[3]] = 0;
          if(index == 0){
          added_prop_list.push([prop_name[3]]);
@@ -108,8 +112,8 @@ function findBinOwner(binNumber){
             }    
           }    
           distinct_list.set(r.NDC,r)                
-      }else{       
-             
+      }else{
+     
          let c = distinct_list.get(r.NDC);
          for (let [k, v] of binData) {      
           if(v.indexOf(r.BINNO) > -1){                
@@ -131,7 +135,7 @@ function findBinOwner(binNumber){
     
    
   } else {      
-    
+   
    const prop_name = file_names[folder_count].split('.').slice(0, -1).join('.');           
    let properties = proerty_map.get(prop_name);        
    let testObject =new Map();
@@ -141,11 +145,13 @@ function findBinOwner(binNumber){
         let testdata = testObject.get(res[properties[0]]);         
         testdata[properties[1]] =  testdata[properties[1]]+res[properties[1]];         
     }else{
-      testObject.set(res[properties[0]],res);
+      const c = res.NDC;
+      const key = res[properties[0]];
+      testObject.set(key,res);
     }
    });
-
    [...testObject.values()].map(r => { 
+    const a = Object.keys(r);
       if(properties[2] == 'no-dash'){
          r[properties[0]] = ndcConvert.converttoformat(r[properties[0]]);  
       }                     
@@ -173,12 +179,11 @@ function findBinOwner(binNumber){
     
    let sort_list = [...distinct_list.values()].sort(vsort); 
  
-   for (let r of sort_list) {
-       
+   for (let r of sort_list) {       
     for (const k of Object.keys(r.binList)) {   
-         if(r.binList[k] >0 && k !=undefined){     
+         if(r.binList[k] >0 && k !== undefined){
           let rr = binFilterData.get(k);  
-          if(rr != undefined){
+          if(rr !== undefined){
            rr.push (r);
          }
          }                  
@@ -188,27 +193,21 @@ function findBinOwner(binNumber){
    const workbook = new Excel.Workbook();
    let worksheet = workbook.addWorksheet('AllDisp');
   
-   a = Object.keys(sort_list[0]) ;
-   //.filter(e => e !== 'binList'); 
+   a = Object.keys(sort_list[0]);   
    worksheet.columns =  a.map(r=>{ return {header:r,key:r};});
-  // const llist = JSON.parse(JSON.stringify(sort_list))
    worksheet.addRows(sort_list.map(r=> {return Object.values(r)}));
-   // console.log();
-   binFilterData.forEach((v,k)=>{    
-    // console.log(v);    
+   
+   binFilterData.forEach((v,k)=>{          
     let worksheet = workbook.addWorksheet(k);
     worksheet.columns = a.map(r=>{  return {header:r,key:r};});
-    v.forEach(r=>{
-      //console.log(r);
+    v.forEach(r=>{     
          r.QUANT = r.binList[k];
          r.AllDISP =  r.QUANT/r.PACKAGESIZE;
          r.distace =  (parseFloat(r.totalpurchased) - parseFloat(r.AllDISP));
-
     });
   
-    worksheet.addRows(v.map(r=> Object.values(r)));   
-    
-   worksheet.getRow(1).eachCell((cell) => {
+    worksheet.addRows(v.map(r=> Object.values(r)));     
+    worksheet.getRow(1).eachCell((cell) => {
     cell.font = { bold: true };
     cell.font = {color: {argb: "004e47cc"}};
     
