@@ -1,8 +1,8 @@
 
   exports.proerty_map = new Map()
   .set('ALPINE RX',['NDC','Quantity','no-dash','Alphine_RX',4])
-  .set('KINOTC',['Universal NDC','Qty','no-dash','Kinray_OTC',8])
-  .set('KINRX',['Universal NDC','Qty','no-dash','Kinray_RX',8])
+  .set('KINOTC',['Universal NDC','Qty','no-dash','Kinray_OTC',8,'Total Cost'])
+  .set('KINRX',['Universal NDC','Qty','no-dash','Kinray_RX',8,'Total Cost'])
   .set('SARATOGA RX LLC',['NDC','Quantity Shipped','dash','SARATOGA_RX',0])
   .set('ABC',['NDC','Shipped Qty','no-dash','ABC',1])
   .set('BLUPAX',['NDC','QTY','dash','BLUPAX',3])
@@ -16,5 +16,5 @@
   .set('TOPRX',['NDC','QTY','no-dash','TOPRX',0])
   .set('RDC',[' NDC','  QTY','no-dash','RDC',8])
   .set('CARDINAL',['NDC','Ship Qty','no-dash','CARDINAL',0])
-  .set('ANDA',['NDC','UNITS_NET','no-dash','ANDA',12])
-  .set('SMITHDRUG',['NDC','QTY','no-dash','SMITHDRUG',0])
+  .set('ANDA',['NDC','UNITS_NET','no-dash','ANDA',12,'NET_SALES_AMT'])
+  .set('SMITHDRUG',['NDC','QTY','no-dash','SMITHDRUG',0,'AMT'])

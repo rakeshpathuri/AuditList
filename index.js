@@ -92,7 +92,9 @@ function generateBinObj() {
             DRGNAME:r.DRGNAME,
             DRUGSTRONG:r.DRUGSTRONG,
             PACKAGESIZE:r.PACKAGESIZE,
+            AllDISP:undefined,
             QUANT:r.QUANT,
+            PRICE:undefined,
             BINNO:r.BINNO};}).map((r,index) => {      
       for(let i= 1;i<file_names.length;i++){    
 
@@ -157,7 +159,11 @@ function generateBinObj() {
       }                     
           if(distinct_list.has(r[properties[0]])) {   
             let subRecord = distinct_list.get(r[properties[0]]);                                             
-            subRecord[properties[3]] = r[properties[1]] ;                        
+            subRecord[properties[3]] = r[properties[1]] ;   
+            if( subRecord.PRICE === undefined ||  r[properties[5]] > subRecord.PRICE){
+               subRecord.PRICE = r[properties[5]];
+              }  
+           
           }
       });       
   }
@@ -175,6 +181,7 @@ function generateBinObj() {
 
     distinct_list.forEach((v,k,index) =>{        
     v.distace = (parseFloat(v.totalpurchased) - parseFloat(v.AllDISP));
+    v['DISC PRICING PER QNTY'] = v.PRICE !== undefined?v.distace*v.PACKAGESIZE*v.PRICE: 'No Price';
     });
     
    let sort_list = [...distinct_list.values()].sort(vsort); 
@@ -204,6 +211,8 @@ function generateBinObj() {
          r.QUANT = r.binList[k];
          r.AllDISP =  r.QUANT/r.PACKAGESIZE;
          r.distace =  (parseFloat(r.totalpurchased) - parseFloat(r.AllDISP));
+         r['DISC PRICING PER QNTY'] = r.PRICE !== undefined?r.distace*r.PACKAGESIZE*r.PRICE: 'No Price';
+        
     });
   
     worksheet.addRows(v.map(r=> Object.values(r)));     
